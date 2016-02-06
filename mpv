@@ -12,9 +12,14 @@ if [ "$1" == "-q" ]; then
 fi
 
 fb_height=`cat /sys/class/graphics/fb0/virtual_size | cut -f2 -d,`
+fb_width=`cat /sys/class/graphics/fb0/virtual_size | cut -f1 -d,`
 vid_height=`mplayer -really-quiet -vo null -ao null -identify -frames 0 "$@" 2>/dev/null | grep ID_VIDEO_HEIGHT | cut -f2 -d=`
 vid_width=`mplayer -really-quiet -vo null -ao null -identify -frames 0 "$@" 2>/dev/null | grep ID_VIDEO_WIDTH | cut -f2 -d=`
 height_factor=`echo "$fb_height/$vid_height" | bc -l`
-optimal_width=`echo "$height_factor*$vid_width" | bc`
+optimal_width=`echo "$height_factor*$vid_width" | bc -l | cut -f1 -d.`
+
+if [ $optimal_width -gt $fb_width ]; then
+	optimal_width=$fb_width
+fi
 
 mplayer $quiet -vo fbdev2 -zoom -fs -xy $optimal_width "$@"
