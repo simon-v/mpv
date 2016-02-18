@@ -22,4 +22,4 @@ if [ $optimal_width -gt $fb_width ]; then
 	optimal_width=$fb_width
 fi
 
-mplayer $quiet -vo fbdev2 -zoom -fs -xy $optimal_width "$@"
+mplayer $quiet -vo fbdev2 -zoom -fs -framedrop -xy $optimal_width "$@"
