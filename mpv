@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ $# -eq 0 ]; then
 	echo "Usage: mpv [-q] [MPLAYER OPTIONS]... FILE"
 	echo "Play a video in fullscreen in the current console using MPlayer"
 	echo "-q		suppress status messages; similar to passing -really-quiet to MPlayer"
