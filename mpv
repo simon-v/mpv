@@ -18,7 +18,10 @@ vid_width=`mplayer -really-quiet -vo null -ao null -identify -frames 0 "$@" 2>/d
 height_factor=`echo "$fb_height/$vid_height" | bc -l`
 optimal_width=`echo "$height_factor*$vid_width" | bc -l | cut -f1 -d.`
 
-if [ $optimal_width -gt $fb_width ]; then
+if [ -z "$optimal_width" ]; then
+	echo "Video is missing metadata, playing may fail." >&2
+	optimal_width=$fb_width
+elif [ $optimal_width -gt $fb_width ]; then
 	optimal_width=$fb_width
 fi
 
